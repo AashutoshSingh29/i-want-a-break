@@ -27,7 +27,6 @@
         align-items: center;
       }
 
-      /* Tap overlay */
       #tapOverlay {
         position: fixed;
         inset: 0;
@@ -41,7 +40,6 @@
         cursor: pointer;
       }
 
-      /* Rose petals */
       .petal {
         position: fixed;
         top: -10%;
@@ -56,7 +54,6 @@
         }
       }
 
-      /* Card */
       .card {
         background: white;
         width: 95%;
@@ -81,7 +78,6 @@
         margin-bottom: 1.2rem;
       }
 
-      /* Ring */
       .ring-container {
         display: flex;
         justify-content: center;
@@ -110,7 +106,6 @@
         }
       }
 
-      /* Diamond */
       .diamond {
         width: 38px;
         height: 38px;
@@ -145,7 +140,6 @@
         }
       }
 
-      /* Sparkles */
       .sparkle {
         position: absolute;
         border-radius: 50%;
@@ -164,7 +158,6 @@
         }
       }
 
-      /* Buttons */
       .buttons {
         margin-top: 1.5rem;
         display: flex;
@@ -201,14 +194,11 @@
         }
       }
 
-      /* NO button (runs away) */
+      /* NO starts NORMAL */
       #noBtn {
         background: #ccc;
-        position: fixed;
-        z-index: 20;
       }
 
-      /* YES message */
       #message {
         margin-top: 1.5rem;
         color: #6b0f1a;
@@ -216,7 +206,6 @@
         display: none;
       }
 
-      /* Fireworks hearts */
       .heart {
         position: fixed;
         font-size: 22px;
@@ -226,7 +215,7 @@
 
       @keyframes burst {
         from {
-          transform: scale(0) translateY(0);
+          transform: scale(0);
           opacity: 1;
         }
         to {
@@ -276,7 +265,6 @@
     </div>
 
     <script>
-      /* Start music */
       const overlay = document.getElementById("tapOverlay");
       const music = document.getElementById("bgMusic");
       overlay.onclick = () => {
@@ -284,54 +272,52 @@
         overlay.style.display = "none";
       };
 
-      /* Sparkles */
       const diamond = document.getElementById("diamond");
       for (let i = 0; i < 16; i++) {
         const s = document.createElement("div");
         s.className = "sparkle";
-        const size = Math.random() * 5 + 3;
-        s.style.width = size + "px";
-        s.style.height = size + "px";
+        s.style.width = s.style.height = Math.random() * 5 + 3 + "px";
         s.style.top = Math.random() * 60 + "px";
         s.style.left = Math.random() * 60 + "px";
         s.style.animationDelay = Math.random() * 2 + "s";
         diamond.appendChild(s);
       }
 
-      /* Rose petals */
       for (let i = 0; i < 24; i++) {
-        const petal = document.createElement("div");
-        petal.className = "petal";
-        petal.innerHTML = "🌹";
-        petal.style.left = Math.random() * 100 + "vw";
-        petal.style.animationDuration = 5 + Math.random() * 5 + "s";
-        document.body.appendChild(petal);
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.innerHTML = "🌹";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.animationDuration = 5 + Math.random() * 5 + "s";
+        document.body.appendChild(p);
       }
 
-      /* NO button escape */
       const noBtn = document.getElementById("noBtn");
+      let escaped = false;
 
-      const moveNo = () => {
-        noBtn.style.left = Math.random() * (window.innerWidth - 100) + "px";
-        noBtn.style.top = Math.random() * (window.innerHeight - 50) + "px";
-      };
+      function escapeNo() {
+        if (!escaped) {
+          escaped = true;
+          noBtn.style.position = "fixed";
+          noBtn.style.zIndex = 50;
+        }
+        noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
+        noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
+      }
 
-      noBtn.addEventListener("mouseenter", moveNo);
-      noBtn.addEventListener("touchstart", moveNo);
+      noBtn.addEventListener("mouseenter", escapeNo);
+      noBtn.addEventListener("touchstart", escapeNo);
 
-      /* YES click → fireworks */
       document.getElementById("yesBtn").onclick = () => {
         document.getElementById("message").style.display = "block";
-
         for (let i = 0; i < 30; i++) {
-          const heart = document.createElement("div");
-          heart.className = "heart";
-          heart.innerHTML = "💖";
-          heart.style.left = Math.random() * 100 + "vw";
-          heart.style.top = Math.random() * 100 + "vh";
-          document.body.appendChild(heart);
-
-          setTimeout(() => heart.remove(), 1500);
+          const h = document.createElement("div");
+          h.className = "heart";
+          h.innerHTML = "💖";
+          h.style.left = Math.random() * 100 + "vw";
+          h.style.top = Math.random() * 100 + "vh";
+          document.body.appendChild(h);
+          setTimeout(() => h.remove(), 1500);
         }
       };
     </script>
